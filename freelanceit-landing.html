@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FreelanceIT — A ledger with a client door</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,460;9..144,560;9..144,640&family=Outfit:wght@380;460;540&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #1c1915;
+        --ink-soft: #4a433c;
+        --paper: #f4efe6;
+        --paper-2: #ebe4d6;
+        --card: #fbf7f0;
+        --line: #ddd4c4;
+        --stamp: #9c3b2e;
+        --stamp-deep: #7c2e24;
+        --moss: #2f5d50;
+        --gold: #a7844a;
+        --shadow: 0 18px 40px rgba(48, 36, 22, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(900px 420px at 90% -10%, rgba(167, 132, 74, 0.16), transparent 60%),
+          var(--paper);
+        font-family: 'Outfit', sans-serif;
+        font-weight: 380;
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+
+      .wrap {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 0 10px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 540;
+        letter-spacing: -0.02em;
+      }
+      .mark {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: var(--ink);
+        color: var(--paper);
+        display: grid;
+        place-items: center;
+        font-family: 'Fraunces', serif;
+        font-size: 16px;
+      }
+      nav {
+        display: flex;
+        gap: 22px;
+        color: var(--ink-soft);
+        font-size: 14px;
+      }
+      .nav-cta,
+      .btn {
+        border: 0;
+        cursor: pointer;
+        border-radius: 999px;
+        background: var(--ink);
+        color: var(--paper);
+        padding: 10px 16px;
+        font-weight: 460;
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+      .btn.stamp {
+        background: var(--stamp);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 48px;
+        align-items: center;
+        padding: 42px 0 28px;
+      }
+      .kicker {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        color: var(--stamp-deep);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 540;
+      }
+      h1 {
+        font-family: 'Fraunces', serif;
+        font-weight: 560;
+        letter-spacing: -0.035em;
+        font-size: clamp(42px, 5.4vw, 68px);
+        line-height: 0.96;
+        margin: 12px 0 16px;
+      }
+      .lede {
+        font-size: 18px;
+        color: var(--ink-soft);
+        max-width: 480px;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 26px;
+        flex-wrap: wrap;
+      }
+      .fine {
+        margin-top: 14px;
+        color: var(--ink-soft);
+        font-size: 13px;
+      }
+
+      .ledger {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .ledger-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+        background: #f7f1e7;
+      }
+      .dots {
+        display: flex;
+        gap: 6px;
+      }
+      .dots span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #d7cbb8;
+      }
+      .dots span:first-child {
+        background: var(--stamp);
+      }
+      .ledger-top strong {
+        font-size: 13px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13.5px;
+      }
+      th {
+        text-align: left;
+        font-weight: 460;
+        color: var(--ink-soft);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      th,
+      td {
+        padding: 11px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      td.num,
+      th.num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+      .pill {
+        font-size: 11px;
+        border-radius: 999px;
+        padding: 3px 8px;
+        background: #efe6d4;
+      }
+      .pill.due {
+        background: #f3ddd8;
+        color: var(--stamp-deep);
+      }
+      .pill.paid {
+        background: #dce8e3;
+        color: var(--moss);
+      }
+      .totals {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px 16px 16px;
+        font-size: 14px;
+      }
+      .totals b {
+        font-family: 'Fraunces', serif;
+        font-size: 22px;
+      }
+
+      .strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin: 18px 0 54px;
+      }
+      .stat {
+        background: rgba(255, 255, 255, 0.35);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px 16px;
+      }
+      .stat span {
+        display: block;
+        color: var(--ink-soft);
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .stat strong {
+        font-family: 'Fraunces', serif;
+        font-size: 26px;
+        font-weight: 560;
+      }
+
+      section {
+        padding: 28px 0 10px;
+      }
+      .section-h {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 20px;
+        margin-bottom: 18px;
+      }
+      h2 {
+        font-family: 'Fraunces', serif;
+        font-size: clamp(30px, 4vw, 42px);
+        line-height: 1;
+        margin: 0;
+        letter-spacing: -0.03em;
+        font-weight: 560;
+      }
+      .section-h p {
+        max-width: 360px;
+        color: var(--ink-soft);
+        margin: 0;
+      }
+
+      .rules {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+      }
+      .rule-list {
+        display: grid;
+        gap: 10px;
+      }
+      .rule {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 12px;
+        align-items: start;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+      }
+      .numeral {
+        font-family: 'Fraunces', serif;
+        color: var(--stamp);
+        font-size: 22px;
+      }
+      .rule h3 {
+        margin: 0 0 4px;
+        font-size: 16px;
+        font-weight: 540;
+      }
+      .rule p {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 14px;
+      }
+      .aside {
+        background: var(--ink);
+        color: #f6f0e6;
+        border-radius: 18px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100%;
+      }
+      .aside h3 {
+        font-family: 'Fraunces', serif;
+        font-weight: 560;
+        font-size: 28px;
+        margin: 8px 0;
+        letter-spacing: -0.03em;
+      }
+      .aside ol {
+        margin: 0;
+        padding-left: 18px;
+        color: #e6dccb;
+      }
+      .aside li {
+        margin: 8px 0;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .step {
+        padding: 16px;
+        border-radius: 14px;
+        background: var(--card);
+        border: 1px solid var(--line);
+      }
+      .step em {
+        font-style: normal;
+        color: var(--gold);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .step h3 {
+        margin: 8px 0 6px;
+        font-size: 18px;
+      }
+      .step p {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 14px;
+      }
+
+      .portal {
+        margin-top: 36px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+        align-items: center;
+        background: var(--paper-2);
+        border-radius: 20px;
+        padding: 22px;
+      }
+      .mock-portal {
+        background: white;
+        border-radius: 14px;
+        padding: 16px;
+        border: 1px solid var(--line);
+      }
+      .mock-portal header {
+        padding: 0 0 10px;
+      }
+      .waitlist {
+        margin: 54px 0 30px;
+        padding: 28px;
+        border-radius: 20px;
+        background: #efe6d6;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 18px;
+        align-items: center;
+      }
+      form {
+        display: flex;
+        gap: 8px;
+      }
+      input[type='email'] {
+        flex: 1;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: white;
+        padding: 12px 14px;
+      }
+      .thanks {
+        display: none;
+        color: var(--moss);
+        font-weight: 540;
+      }
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0 28px;
+        color: var(--ink-soft);
+        font-size: 13px;
+      }
+
+      @media (max-width: 860px) {
+        nav {
+          display: none;
+        }
+        .hero,
+        .rules,
+        .portal,
+        .waitlist,
+        .flow,
+        .strip {
+          grid-template-columns: 1fr;
+        }
+        .section-h {
+          flex-direction: column;
+          align-items: start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a class="brand" href="#top"><span class="mark">F</span> FreelanceIT</a>
+        <nav>
+          <a href="#rules">Rules</a>
+          <a href="#flow">Workflow</a>
+          <a href="#portal">Client door</a>
+        </nav>
+        <a class="nav-cta" href="#wait">Get the mock</a>
+      </header>
+
+      <section class="hero" id="top">
+        <div>
+          <div class="kicker">For one freelancer. Not an agency.</div>
+          <h1>A ledger with a client door.</h1>
+          <p class="lede">
+            Time and expenses become invoice lines. Lines become payments. Every number on the
+            dashboard is a query over that trail — never a figure you typed.
+          </p>
+          <div class="hero-actions">
+            <a class="btn stamp" href="#wait">Join the list</a>
+            <a class="btn ghost" href="#flow">See the four moves</a>
+          </div>
+          <p class="fine">Sent means immutable. Corrections are credit notes, not edits.</p>
+        </div>
+        <div class="ledger" aria-hidden="true">
+          <div class="ledger-top">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <strong>INV-2026-0042</strong>
+            <span class="pill due">Due in 6 days</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Line</th>
+                <th class="num">Qty</th>
+                <th class="num">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>API design, Northwind</td>
+                <td class="num">12.5h</td>
+                <td class="num">₦187,500</td>
+              </tr>
+              <tr>
+                <td>Staging deploy</td>
+                <td class="num">1</td>
+                <td class="num">₦45,000</td>
+              </tr>
+              <tr>
+                <td>Domain receipt, billable</td>
+                <td class="num">1</td>
+                <td class="num">₦18,200</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="totals"><span>Balance</span><b>₦250,700</b></div>
+        </div>
+      </section>
+
+      <div class="strip">
+        <div class="stat"><span>Outstanding</span><strong>₦1.84m</strong></div>
+        <div class="stat"><span>Overdue</span><strong>2</strong></div>
+        <div class="stat"><span>Unbilled</span><strong>18.5h</strong></div>
+        <div class="stat"><span>Paid this month</span><strong>₦640k</strong></div>
+      </div>
+
+      <section id="rules">
+        <div class="section-h">
+          <h2>The rules that keep the books boring.</h2>
+          <p>
+            Angular checks the form. The database checks the truth. A sent invoice is a snapshot,
+            not a live reference.
+          </p>
+        </div>
+        <div class="rules">
+          <div class="rule-list">
+            <article class="rule">
+              <div class="numeral">01</div>
+              <div>
+                <h3>One money trail</h3>
+                <p>
+                  Unbilled time and expenses are copied onto the invoice. Change a rate later and
+                  old lines stay put.
+                </p>
+              </div>
+            </article>
+            <article class="rule">
+              <div class="numeral">02</div>
+              <div>
+                <h3>Integers only</h3>
+                <p>
+                  Minor units plus an ISO currency. No floats in the form, the API, or the database.
+                </p>
+              </div>
+            </article>
+            <article class="rule">
+              <div class="numeral">03</div>
+              <div>
+                <h3>Void or credit</h3>
+                <p>
+                  Untouched invoices can be voided. Anything paid gets a credit note. Numbers are
+                  never reused.
+                </p>
+              </div>
+            </article>
+            <article class="rule">
+              <div class="numeral">04</div>
+              <div>
+                <h3>A door, not an account</h3>
+                <p>
+                  Clients open a token link. They see their invoices, the PDF, and how to pay.
+                  Nothing else.
+                </p>
+              </div>
+            </article>
+          </div>
+          <aside class="aside">
+            <div>
+              <div class="kicker" style="color: #e7c2ba">Balance</div>
+              <h3>Total − payments − credit notes.</h3>
+              <p>Overdue is derived. It is never a status you set.</p>
+            </div>
+            <ol>
+              <li>Draft autosaves. Two tabs conflict instead of overwriting.</li>
+              <li>Send allocates INV-2026-0042 inside one transaction.</li>
+              <li>Double-clicking send still creates one invoice.</li>
+            </ol>
+          </aside>
+        </div>
+      </section>
+
+      <section id="flow">
+        <div class="section-h">
+          <h2>Four moves. Then it is filed.</h2>
+          <p>Capture, bill, collect, correct. No CRM, no payroll, no inventory.</p>
+        </div>
+        <div class="flow">
+          <article class="step">
+            <em>01</em>
+            <h3>Capture</h3>
+            <p>
+              One running timer. Manual entries accept 1h30 or 90m. Receipts stay in private
+              storage.
+            </p>
+          </article>
+          <article class="step">
+            <em>02</em>
+            <h3>Bill</h3>
+            <p>
+              Pull the unbilled queue. Include, exclude, or write off. Send freezes the lines and
+              the PDF.
+            </p>
+          </article>
+          <article class="step">
+            <em>03</em>
+            <h3>Collect</h3>
+            <p>
+              Record a payment with a reference. Partials are normal. Overpay becomes client credit.
+            </p>
+          </article>
+          <article class="step">
+            <em>04</em>
+            <h3>Correct</h3>
+            <p>
+              Reverse a payment with a new row. Issue a credit note. The original document stays.
+            </p>
+          </article>
+        </div>
+
+        <div class="portal" id="portal">
+          <div>
+            <div class="kicker">Client door</div>
+            <h2>They see the invoice. Not your books.</h2>
+            <p class="lede">
+              Rotate the token and the old link dies on a plain expired page. A bad token looks the
+              same as an unknown one.
+            </p>
+          </div>
+          <div class="mock-portal">
+            <header>
+              <strong>Northwind</strong>
+              <span class="pill paid">Paid</span>
+            </header>
+            <p style="margin: 0 0 8px; color: #4a433c">INV-2026-0038 · 12 Aug</p>
+            <div class="totals" style="padding: 8px 0 0"><span>Received</span><b>₦180,000</b></div>
+            <div class="hero-actions">
+              <button class="btn" type="button" id="pdf">Download PDF</button>
+              <button class="btn ghost" type="button" id="paid">I’ve paid</button>
+            </div>
+            <p class="fine" id="portal-note">
+              Payment claims wait for you to confirm. Clients never write the ledger.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="waitlist" id="wait">
+        <div>
+          <h2>The mock is the product boundary.</h2>
+          <p class="lede">
+            Owner books on one side. A client link on the other. Leave an email and this page is the
+            waitlist.
+          </p>
+        </div>
+        <form id="form">
+          <input type="email" required placeholder="you@studio.com" aria-label="Email" />
+          <button class="btn stamp" type="submit">Request access</button>
+        </form>
+        <p class="thanks" id="thanks">You’re on the list. No sequence number was wasted.</p>
+      </section>
+
+      <footer>
+        <span>FreelanceIT · mock landing</span>
+        <span>Sent invoices are not drafts.</span>
+      </footer>
+    </div>
+    <script>
+      document.getElementById('form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        this.style.display = 'none';
+        document.getElementById('thanks').style.display = 'block';
+      });
+      document.getElementById('paid').addEventListener('click', function () {
+        document.getElementById('portal-note').textContent =
+          'Claim recorded. The owner still confirms before it hits the invoice.';
+      });
+      document.getElementById('pdf').addEventListener('click', function () {
+        document.getElementById('portal-note').textContent =
+          'PDF comes from the frozen snapshot, not a live recompute.';
+      });
+    </script>
+  </body>
+</html>

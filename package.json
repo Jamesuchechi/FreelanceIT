@@ -1,0 +1,41 @@
+{
+  "name": "freelanceit",
+  "private": true,
+  "version": "0.0.0",
+  "description": "A ledger with a client door, for freelancers.",
+  "packageManager": "pnpm@12.8.1",
+  "engines": {
+    "node": ">=22.22.3"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @freelanceit/web start",
+    "build": "pnpm --filter @freelanceit/web build && pnpm size",
+    "size": "node scripts/check-bundle-size.mjs",
+    "test": "pnpm -r --if-present test",
+    "test:db": "supabase test db",
+    "test:e2e": "echo \"Playwright journeys arrive in M8\" && exit 0",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "db:reset": "supabase db reset",
+    "prepare": "husky || true"
+  },
+  "lint-staged": {
+    "*.{ts,html,scss,json,md,yml,yaml,mjs}": "prettier --write",
+    "*.{ts,html}": "eslint --fix"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/js": "^9.22.0",
+    "angular-eslint": "^19.2.1",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.3",
+    "typescript": "~5.8.2",
+    "typescript-eslint": "^8.26.0"
+  }
+}

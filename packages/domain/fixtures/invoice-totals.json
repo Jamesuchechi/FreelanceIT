@@ -1,0 +1,82 @@
+[
+  {
+    "name": "spec worked example (exclusive, 5% discount, mixed rates)",
+    "taxMode": "exclusive",
+    "discount": { "type": "percent", "valueBp": 500 },
+    "lines": [
+      { "qtyMilli": 18500, "unitPriceMinor": 25000, "taxLabel": "VAT", "taxRateBp": 750 },
+      { "qtyMilli": 1000, "unitPriceMinor": 38000, "taxLabel": "VAT", "taxRateBp": 750 },
+      { "qtyMilli": 1000, "unitPriceMinor": 20000, "taxLabel": "Exempt", "taxRateBp": 0 },
+      { "qtyMilli": 1000, "unitPriceMinor": 80000, "taxLabel": "VAT", "taxRateBp": 750 }
+    ],
+    "expected": {
+      "subtotalMinor": 600500,
+      "discountMinor": 30025,
+      "taxMinor": 41361,
+      "totalMinor": 611836,
+      "taxGroups": [
+        { "taxLabel": "Exempt", "taxRateBp": 0, "netMinor": 19000, "taxMinor": 0 },
+        { "taxLabel": "VAT", "taxRateBp": 750, "netMinor": 551475, "taxMinor": 41361 }
+      ]
+    }
+  },
+  {
+    "name": "no discount, single rate, exclusive",
+    "taxMode": "exclusive",
+    "discount": { "type": "none" },
+    "lines": [{ "qtyMilli": 2000, "unitPriceMinor": 10000, "taxLabel": "VAT", "taxRateBp": 750 }],
+    "expected": {
+      "subtotalMinor": 20000,
+      "discountMinor": 0,
+      "taxMinor": 1500,
+      "totalMinor": 21500,
+      "taxGroups": [{ "taxLabel": "VAT", "taxRateBp": 750, "netMinor": 20000, "taxMinor": 1500 }]
+    }
+  },
+  {
+    "name": "half-away-from-zero on line net (0.5 minor units rounds up)",
+    "taxMode": "exclusive",
+    "discount": { "type": "none" },
+    "lines": [{ "qtyMilli": 1500, "unitPriceMinor": 333, "taxLabel": "Zero", "taxRateBp": 0 }],
+    "expected": {
+      "subtotalMinor": 500,
+      "discountMinor": 0,
+      "taxMinor": 0,
+      "totalMinor": 500,
+      "taxGroups": [{ "taxLabel": "Zero", "taxRateBp": 0, "netMinor": 500, "taxMinor": 0 }]
+    }
+  },
+  {
+    "name": "inclusive: net + tax equals gross",
+    "taxMode": "inclusive",
+    "discount": { "type": "none" },
+    "lines": [{ "qtyMilli": 1000, "unitPriceMinor": 10750, "taxLabel": "VAT", "taxRateBp": 750 }],
+    "expected": {
+      "subtotalMinor": 10750,
+      "discountMinor": 0,
+      "taxMinor": 750,
+      "totalMinor": 10750,
+      "taxGroups": [{ "taxLabel": "VAT", "taxRateBp": 750, "netMinor": 10000, "taxMinor": 750 }]
+    }
+  },
+  {
+    "name": "fixed discount that does not divide evenly (largest remainder)",
+    "taxMode": "exclusive",
+    "discount": { "type": "fixed", "valueMinor": 100 },
+    "lines": [
+      { "qtyMilli": 1000, "unitPriceMinor": 100, "taxLabel": "A", "taxRateBp": 1000 },
+      { "qtyMilli": 1000, "unitPriceMinor": 100, "taxLabel": "A", "taxRateBp": 1000 },
+      { "qtyMilli": 1000, "unitPriceMinor": 100, "taxLabel": "B", "taxRateBp": 500 }
+    ],
+    "expected": {
+      "subtotalMinor": 300,
+      "discountMinor": 100,
+      "taxMinor": 16,
+      "totalMinor": 216,
+      "taxGroups": [
+        { "taxLabel": "A", "taxRateBp": 1000, "netMinor": 133, "taxMinor": 13 },
+        { "taxLabel": "B", "taxRateBp": 500, "netMinor": 67, "taxMinor": 3 }
+      ]
+    }
+  }
+]

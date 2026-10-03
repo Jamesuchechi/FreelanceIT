@@ -1,0 +1,2 @@
+-- Seed data for local testing (FreelanceIT)
+-- Detailed seeds will be populated per milestone (M1 onwards).
