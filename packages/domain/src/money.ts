@@ -1,6 +1,7 @@
-import { currencyExponent, type CurrencyCode } from './currency';
-import { DomainError } from './errors';
-import { assertInteger } from './rounding';
+import { currencyExponent, type CurrencyCode } from './currency.js';
+import { DomainError } from './errors.js';
+import { assertInteger } from './rounding.js';
+
 
 /** Money is always integer minor units plus an ISO 4217 currency. Never a float. */
 export interface Money {
@@ -83,12 +84,12 @@ export function parseMajor(input: string, currency: CurrencyCode): Money {
 }
 
 /** Locale-aware display. Uses the exact decimal string, so no float rounding. */
-export function formatMoney(m: Money, locale: string): string {
+export function formatMoney(m: Money, locale: string = 'en-US'): string {
   const exponent = currencyExponent(m.currency);
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: m.currency,
     minimumFractionDigits: exponent,
     maximumFractionDigits: exponent,
-  }).format(toMajorString(m) as `${number}`);
+  }).format(Number(toMajorString(m)));
 }

@@ -1,4 +1,5 @@
-import { currencyExponent } from './currency';
+import { currencyExponent } from './currency.js';
+
 
 export type ValidationCode =
   | 'NO_LINES'

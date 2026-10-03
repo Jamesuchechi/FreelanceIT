@@ -1,4 +1,5 @@
-import { DomainError } from './errors';
+import { DomainError } from './errors.js';
+
 
 export type WorkStatus = 'draft' | 'invoiced' | 'written_off';
 export type InvoiceStatus = 'draft' | 'sent' | 'partially_paid' | 'paid' | 'void';

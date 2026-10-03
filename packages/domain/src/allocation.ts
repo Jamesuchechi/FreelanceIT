@@ -1,5 +1,6 @@
-import { DomainError } from './errors';
-import { assertInteger, divRoundHalfAwayFromZero, toSafeInteger } from './rounding';
+import { DomainError } from './errors.js';
+import { assertInteger, divRoundHalfAwayFromZero, toSafeInteger } from './rounding.js';
+
 
 /**
  * Splits `total` across `weights` so the pieces sum exactly to `total`.

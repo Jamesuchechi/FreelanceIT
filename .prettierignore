@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+.angular/
+.vite/
+.vite-temp/
+*.tsbuildinfo
+pnpm-lock.yaml
+supabase/.temp/
+supabase/.branches/
+.husky/_/

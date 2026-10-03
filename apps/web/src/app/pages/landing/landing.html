@@ -1,0 +1,947 @@
+<div class="landing-layout">
+  <!-- Top Ambient Glow Accents -->
+  <div class="ambient-glow glow-1" aria-hidden="true"></div>
+  <div class="ambient-glow glow-2" aria-hidden="true"></div>
+  <div class="ambient-glow glow-3" aria-hidden="true"></div>
+
+  <!-- Sticky Glassmorphic Header -->
+  <header class="header-nav">
+    <div class="container nav-content">
+      <a href="#top" class="brand-link">
+        <span class="brand-glyph">F</span>
+        <div class="brand-text">
+          <span class="brand-name">FreelanceIT</span>
+          <span class="brand-tag">v1.0</span>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#ledger" class="nav-item">Ledger</a>
+        <a href="#invariants" class="nav-item">Core Invariants</a>
+        <a href="#workflow" class="nav-item">Four Moves</a>
+        <a href="#portal" class="nav-item">Client Door</a>
+        <a href="#calculator" class="nav-item">ROI Calculator</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Currency Pill Selector -->
+        <div class="currency-picker" aria-label="Select currency">
+          @for (c of currencies; track c.code) {
+            <button
+              type="button"
+              class="curr-btn"
+              [class.active]="selectedCurrency() === c.code"
+              (click)="setCurrency(c.code)"
+            >
+              {{ c.code }}
+            </button>
+          }
+        </div>
+
+        <a href="#waitlist" class="btn btn-stamp btn-sm">Request Access</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="top">
+    <div class="container hero-grid">
+      <!-- Left Hero Column -->
+      <div class="hero-text-block">
+        <div class="kicker-badge">
+          <span class="pulse-dot"></span>
+          <span>FOR SOLO FREELANCERS · NEVER AN AGENCY</span>
+        </div>
+
+        <h1 class="hero-heading font-serif">
+          A financial ledger with a <span class="highlight-serif">client door</span>.
+        </h1>
+
+        <p class="hero-lead">
+          Time and expenses become invoice lines. Lines become payments. Every single number on your
+          dashboard is a deterministic query over that trail — never a figure you typed.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#waitlist" class="btn btn-stamp btn-lg">
+            <span>Join Early Access</span>
+            <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </a>
+          <a href="#ledger" class="btn btn-ghost btn-lg">
+            <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5z"
+              />
+            </svg>
+            <span>Explore Live Ledger</span>
+          </a>
+        </div>
+
+        <div class="hero-guarantee-strip">
+          <div class="guarantee-item">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span>Sent means immutable</span>
+          </div>
+          <div class="guarantee-item">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span>Zero floats · Minor units</span>
+          </div>
+          <div class="guarantee-item">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span>No passwords for clients</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Live Ledger -->
+      <div class="hero-ledger-card" id="ledger">
+        <div class="card-header-bar">
+          <div class="window-controls">
+            <span class="control-dot red"></span>
+            <span class="control-dot yellow"></span>
+            <span class="control-dot green"></span>
+          </div>
+          <div class="invoice-seq font-mono">
+            <strong>INV-2026-0042</strong>
+            <span class="seq-tag">Gapless №</span>
+          </div>
+          <div class="status-pill" [class.due]="isFrozen()">
+            <span class="status-dot"></span>
+            <span>{{ isFrozen() ? 'Due in 6 days' : 'Draft Editing' }}</span>
+          </div>
+        </div>
+
+        <div class="ledger-body">
+          <div class="client-meta-row">
+            <div>
+              <span class="meta-label">Billed To</span>
+              <h4 class="client-name">Northwind Digital Ltd.</h4>
+              <span class="meta-sub font-mono">RC-1928401 · Net 14</span>
+            </div>
+            <div class="meta-right">
+              <span class="meta-label">Issued Snapshot</span>
+              <span class="meta-val font-mono">12 Oct 2026</span>
+              <span class="watermark-stamp" *ngIf="isFrozen()">IMMUTABLE</span>
+            </div>
+          </div>
+
+          <!-- Interactive Line Table -->
+          <div class="table-container">
+            <table class="ledger-table">
+              <thead>
+                <tr>
+                  <th class="th-check"></th>
+                  <th>Description</th>
+                  <th class="th-num">Qty</th>
+                  <th class="th-num">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (line of demoLines(); track line.id) {
+                  <tr
+                    [class.inactive-line]="!line.included"
+                    (click)="toggleLine(line.id)"
+                    tabindex="0"
+                    (keydown.enter)="toggleLine(line.id)"
+                    (keydown.space)="toggleLine(line.id)"
+                  >
+                    <td class="td-check">
+                      <input
+                        type="checkbox"
+                        [checked]="line.included"
+                        (change)="toggleLine(line.id)"
+                        (click)="$event.stopPropagation()"
+                        [attr.aria-label]="'Include ' + line.description"
+                      />
+                    </td>
+                    <td>
+                      <div class="line-desc-block">
+                        <span class="line-desc">{{ line.description }}</span>
+                        <span class="line-badge" [attr.data-type]="line.type">{{ line.type }}</span>
+                      </div>
+                    </td>
+                    <td class="th-num font-mono">{{ line.displayQty }}</td>
+                    <td class="th-num font-mono line-amount">
+                      {{ formatLinePrice(line.unitPriceMinor) }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Interactive Controls Toolbar -->
+          <div class="interactive-toolbar">
+            <span class="toolbar-hint">Try clicking lines above or toggling tax/discount:</span>
+            <div class="toolbar-controls">
+              <button
+                type="button"
+                class="pill-btn"
+                [class.active]="discountPercent() === 10"
+                (click)="discountPercent.set(discountPercent() === 0 ? 10 : 0)"
+              >
+                {{ discountPercent() === 10 ? '10% Discount Applied' : '+ Add 10% Discount' }}
+              </button>
+              <button
+                type="button"
+                class="pill-btn"
+                [class.active]="taxRateOption() === 750"
+                (click)="taxRateOption.set(taxRateOption() === 0 ? 750 : 0)"
+              >
+                {{ taxRateOption() === 750 ? '7.5% VAT Active' : '0% Tax (Exempt)' }}
+              </button>
+              <button
+                type="button"
+                class="pill-btn freeze-btn"
+                [class.active]="isFrozen()"
+                (click)="toggleFreeze()"
+              >
+                {{ isFrozen() ? '🔒 Locked Snapshot' : '🔓 Unlock Draft' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Real-time Mathematical Breakdown -->
+          <div class="ledger-totals-breakdown">
+            <div class="totals-row">
+              <span class="total-label">Subtotal</span>
+              <span class="total-val font-mono">{{ invoiceTotals().subtotalFormatted }}</span>
+            </div>
+            @if (invoiceTotals().raw.discountMinor > 0) {
+              <div class="totals-row discount-row">
+                <span class="total-label">Document Discount</span>
+                <span class="total-val font-mono">-{{ invoiceTotals().discountFormatted }}</span>
+              </div>
+            }
+            <div class="totals-row">
+              <span class="total-label">VAT Group ({{ taxRateOption() / 100 }}%)</span>
+              <span class="total-val font-mono">+{{ invoiceTotals().taxFormatted }}</span>
+            </div>
+            <div class="totals-divider"></div>
+            <div class="totals-row grand-balance">
+              <div>
+                <span class="balance-title">Balance Due</span>
+                <span class="balance-note">Verified integer math · 0 float drift</span>
+              </div>
+              <strong class="balance-figure font-serif">{{
+                invoiceTotals().balanceFormatted
+              }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer-bar">
+          <span class="server-auth-badge">
+            <span class="green-beacon"></span>
+            Database constraint verified · Gapless idempotency key active
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Metrics Strip -->
+  <section class="metrics-strip-section">
+    <div class="container">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon-wrap amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <span class="metric-caption">Unbilled Queue</span>
+            <strong class="metric-value font-serif">18.5h</strong>
+            <span class="metric-sub">Draft time & receipts ready to bill</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-wrap emerald">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z M12 3v1m0 16v1m9-9h-1M4 12H3"
+              />
+            </svg>
+          </div>
+          <div>
+            <span class="metric-caption">Paid This Month</span>
+            <strong class="metric-value font-serif">{{ formatLinePrice(64000000) }}</strong>
+            <span class="metric-sub">Reconciled without manual balance edits</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-wrap rust">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+          </div>
+          <div>
+            <span class="metric-caption">Overdue Invoices</span>
+            <strong class="metric-value font-serif">2</strong>
+            <span class="metric-sub">Derived strictly: due &lt; today &amp; bal &gt; 0</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-wrap indigo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+          </div>
+          <div>
+            <span class="metric-caption">Audit Trail Integrity</span>
+            <strong class="metric-value font-serif">100%</strong>
+            <span class="metric-sub">Immutable snapshots · Zero floating drift</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Invariants Section -->
+  <section class="section-block" id="invariants">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <span class="section-kicker">ARCHITECTURAL INTEGRITY</span>
+          <h2 class="section-title font-serif">The four rules that keep the books boring.</h2>
+        </div>
+        <p class="section-description">
+          Angular validates the user interface for instant responsiveness. Supabase and PostgreSQL
+          enforce the mathematical truth. A sent invoice is a frozen snapshot, never a live
+          reference.
+        </p>
+      </div>
+
+      <div class="invariants-grid">
+        <div class="invariant-card">
+          <div class="invariant-num font-serif">01</div>
+          <div class="invariant-content">
+            <h3 class="invariant-heading">One Money Trail</h3>
+            <p class="invariant-text">
+              Unbilled time and expense rows are copied onto the invoice when sent. If you raise
+              your rate next month, historical invoices and past lines remain unaltered.
+            </p>
+            <div class="invariant-code font-mono">
+              <code>time_entries → invoice_lines (frozen)</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="invariant-card">
+          <div class="invariant-num font-serif">02</div>
+          <div class="invariant-content">
+            <h3 class="invariant-heading">Integers Only</h3>
+            <p class="invariant-text">
+              Every monetary value is stored in minor units (cents, kobo, pence) with an ISO 4217
+              currency code. No floating-point division drift anywhere in the DB or API.
+            </p>
+            <div class="invariant-code font-mono">
+              <code>amount_minor: 1500000, cur: 'NGN'</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="invariant-card">
+          <div class="invariant-num font-serif">03</div>
+          <div class="invariant-content">
+            <h3 class="invariant-heading">Void or Credit Only</h3>
+            <p class="invariant-text">
+              Untouched invoices can be voided, releasing time entries back to draft. Any invoice
+              with recorded payments is corrected with a formal Credit Note. Invoices are never
+              deleted.
+            </p>
+            <div class="invariant-code font-mono">
+              <code>CN-2026-0001 (issued) · No deletes</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="invariant-card">
+          <div class="invariant-num font-serif">04</div>
+          <div class="invariant-content">
+            <h3 class="invariant-heading">A Door, Not an Account</h3>
+            <p class="invariant-text">
+              Clients access their invoices through unguessable cryptographic token links. They see
+              the live status, bank instructions, and download the PDF. No client sign-up friction.
+            </p>
+            <div class="invariant-code font-mono">
+              <code>/p/tok_94f2a781... · 0 Passwords</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Four Moves Workflow Section -->
+  <section class="section-block workflow-section" id="workflow">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <span class="section-kicker">STREAMLINED EXECUTION</span>
+          <h2 class="section-title font-serif">Four moves. Then it is filed.</h2>
+        </div>
+        <p class="section-description">
+          Capture time, bill cleanly, collect payments, and correct adjustments. No cluttered CRM,
+          no payroll overhead, no inventory bloat.
+        </p>
+      </div>
+
+      <!-- Interactive Scrubber Tabs -->
+      <div class="moves-tab-bar">
+        <button
+          type="button"
+          class="move-tab"
+          [class.active]="activeMove() === 1"
+          (click)="setMove(1)"
+        >
+          <span class="move-badge">01</span>
+          <span class="move-name">Capture</span>
+        </button>
+        <button
+          type="button"
+          class="move-tab"
+          [class.active]="activeMove() === 2"
+          (click)="setMove(2)"
+        >
+          <span class="move-badge">02</span>
+          <span class="move-name">Bill</span>
+        </button>
+        <button
+          type="button"
+          class="move-tab"
+          [class.active]="activeMove() === 3"
+          (click)="setMove(3)"
+        >
+          <span class="move-badge">03</span>
+          <span class="move-name">Collect</span>
+        </button>
+        <button
+          type="button"
+          class="move-tab"
+          [class.active]="activeMove() === 4"
+          (click)="setMove(4)"
+        >
+          <span class="move-badge">04</span>
+          <span class="move-name">Correct</span>
+        </button>
+      </div>
+
+      <!-- Active Move Interactive Canvas -->
+      <div class="move-canvas-card">
+        @if (activeMove() === 1) {
+          <div class="move-detail-grid">
+            <div class="move-info">
+              <span class="move-step-tag font-mono">MOVE 01 // CAPTURE</span>
+              <h3 class="move-title font-serif">Track time effortlessly. Store receipts safely.</h3>
+              <p class="move-desc">
+                Start a live timer with one tap. Or type natural durations like
+                <code>1h30</code>, <code>90m</code>, or <code>1.5</code>. Timers survive browser
+                refreshes and sync offline. Receipts stay in private encrypted storage.
+              </p>
+              <ul class="feature-bullets">
+                <li>One running timer at any given moment to prevent double billing.</li>
+                <li>Custom rounding rules per client (none, 6 min, or 15 min intervals).</li>
+                <li>Direct file upload with immediate client-side preview and replacement.</li>
+              </ul>
+            </div>
+            <div class="move-demo-widget timer-demo">
+              <div class="timer-display-box">
+                <span class="timer-project-name">Project: Northwind Core Migration</span>
+                <div class="timer-clock font-mono">
+                  {{ formattedTimer() }}
+                </div>
+                <div class="timer-status">
+                  <span class="pulse-beacon"></span>
+                  <span>Active Timer Running</span>
+                </div>
+              </div>
+              <div class="quick-entry-mock">
+                <span class="mock-label">Natural Duration Parser</span>
+                <div class="mock-input-row">
+                  <input
+                    type="text"
+                    value="1h 30m frontend auth debugging"
+                    readonly
+                    class="font-mono"
+                    aria-label="Natural duration parser example"
+                  />
+                  <span class="parsed-badge font-mono">→ 5400s (1.5h)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        @if (activeMove() === 2) {
+          <div class="move-detail-grid">
+            <div class="move-info">
+              <span class="move-step-tag font-mono">MOVE 02 // BILL</span>
+              <h3 class="move-title font-serif">Convert the unbilled queue into an invoice.</h3>
+              <p class="move-desc">
+                Pull all draft hours and expenses with one click. Check or uncheck lines, apply
+                project rate overrides, and hit send. The server allocates a gapless sequential
+                number within an atomic database transaction.
+              </p>
+              <ul class="feature-bullets">
+                <li>Lines and client details snapshot permanently onto the document.</li>
+                <li>Send operation is strictly idempotent — double clicking never duplicates.</li>
+                <li>Instant server-side PDF generation ready for immediate delivery.</li>
+              </ul>
+            </div>
+            <div class="move-demo-widget queue-demo">
+              <div class="queue-header">
+                <strong>Unbilled Queue (Client: Northwind)</strong>
+                <span class="queue-badge">3 items selected</span>
+              </div>
+              <div class="queue-list">
+                <div class="queue-item">
+                  <span>✓ 12.5h Database Optimization</span>
+                  <span class="font-mono">{{ formatLinePrice(18750000) }}</span>
+                </div>
+                <div class="queue-item">
+                  <span>✓ Staging Deployment</span>
+                  <span class="font-mono">{{ formatLinePrice(4500000) }}</span>
+                </div>
+                <div class="queue-item">
+                  <span>✓ Pass-through Receipt (DNS)</span>
+                  <span class="font-mono">{{ formatLinePrice(1820000) }}</span>
+                </div>
+              </div>
+              <div class="queue-action-bar">
+                <button type="button" class="btn btn-stamp btn-sm">
+                  Generate Draft (INV-2026-0043)
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
+        @if (activeMove() === 3) {
+          <div class="move-detail-grid">
+            <div class="move-info">
+              <span class="move-step-tag font-mono">MOVE 03 // COLLECT</span>
+              <h3 class="move-title font-serif">Record payments with complete transparency.</h3>
+              <p class="move-desc">
+                Log bank transfers, wire payments, and partial payments against invoices. Every
+                payment creates an immutable ledger row. Overpayments automatically roll over into
+                client credit for subsequent billing.
+              </p>
+              <ul class="feature-bullets">
+                <li>Partial payments transition status to Partially Paid cleanly.</li>
+                <li>Overpayments become reusable client credit, never accounting black holes.</li>
+                <li>Idempotency keys prevent double payment entry mistakes.</li>
+              </ul>
+            </div>
+            <div class="move-demo-widget collect-demo">
+              <div class="payment-card">
+                <div class="pay-top">
+                  <span class="pill-badge moss">Payment Recorded</span>
+                  <span class="font-mono">REF: NIP-202610-891</span>
+                </div>
+                <div class="pay-amount font-serif">
+                  {{ formatLinePrice(15000000) }}
+                </div>
+                <div class="pay-ledger-impact">
+                  <div class="impact-row">
+                    <span>Original Balance:</span>
+                    <span class="font-mono">{{ formatLinePrice(25070000) }}</span>
+                  </div>
+                  <div class="impact-row">
+                    <span>Payment Applied:</span>
+                    <span class="font-mono text-moss">-{{ formatLinePrice(15000000) }}</span>
+                  </div>
+                  <div class="impact-row highlight">
+                    <span>Remaining Balance:</span>
+                    <span class="font-mono font-bold">{{ formatLinePrice(10070000) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        @if (activeMove() === 4) {
+          <div class="move-detail-grid">
+            <div class="move-info">
+              <span class="move-step-tag font-mono">MOVE 04 // CORRECT</span>
+              <h3 class="move-title font-serif">Credit notes over edits. Clear audit trails.</h3>
+              <p class="move-desc">
+                Never delete or modify a sent invoice. If an adjustment is needed, issue a numbered
+                Credit Note that offsets the balance, or void an untouched draft to release hours.
+              </p>
+              <ul class="feature-bullets">
+                <li>Credit notes carry their own gapless sequence (`CN-2026-0001`).</li>
+                <li>Payments can be reversed with an offsetting audit transaction.</li>
+                <li>Your tax and financial accountant will admire the zero-mutation trail.</li>
+              </ul>
+            </div>
+            <div class="move-demo-widget credit-demo">
+              <div class="cn-card">
+                <div class="cn-header">
+                  <strong>Credit Note</strong>
+                  <span class="font-mono">CN-2026-0004</span>
+                </div>
+                <p class="cn-desc">Linked to: INV-2026-0042 (Northwind)</p>
+                <div class="cn-amount font-serif">-{{ formatLinePrice(4500000) }}</div>
+                <div class="cn-reason">
+                  <span>Reason: Scope adjusted post-deployment per agreement.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Client Door Simulator Section -->
+  <section class="section-block portal-section" id="portal">
+    <div class="container">
+      <div class="portal-box">
+        <div class="portal-header-content">
+          <div class="portal-kicker font-mono">CLIENT DOOR SIMULATOR</div>
+          <h2 class="portal-title font-serif">They see the invoice. Not your private books.</h2>
+          <p class="portal-lead">
+            Clients open their unique cryptographic link. No account creation, no password resets,
+            no friction. Rotate the token and the old URL terminates instantly.
+          </p>
+
+          <div class="token-bar font-mono">
+            <span class="token-label">Live Token Link:</span>
+            <span class="token-val">https://app.freelanceit.io/p/{{ portalToken() }}</span>
+            <button
+              type="button"
+              class="token-rotate-btn"
+              (click)="rotateToken()"
+              title="Rotate Token"
+            >
+              🔄 Rotate Token
+            </button>
+          </div>
+        </div>
+
+        <!-- Simulated Client Screen -->
+        <div class="client-portal-mock">
+          <div class="portal-top-bar">
+            <div class="portal-brand">
+              <span class="portal-logo">F</span>
+              <strong>FreelanceIT Client Portal</strong>
+            </div>
+            <div
+              class="portal-status-badge"
+              [class.paid]="portalPaymentStatus() === 'claimed'"
+              [class.unpaid]="portalPaymentStatus() === 'unpaid'"
+            >
+              {{
+                portalPaymentStatus() === 'claimed' ? 'Payment Claim Pending' : 'Due for Payment'
+              }}
+            </div>
+          </div>
+
+          <div class="portal-inner-content">
+            <div class="portal-inv-summary">
+              <div>
+                <span class="p-meta-sub">Invoice Reference</span>
+                <h4 class="p-inv-title font-mono">INV-2026-0038</h4>
+                <p class="p-client-name">Prepared for Northwind Digital</p>
+              </div>
+              <div class="p-amount-box">
+                <span class="p-meta-sub">Total Amount Due</span>
+                <strong class="p-amount-figure font-serif">{{ formatLinePrice(18000000) }}</strong>
+              </div>
+            </div>
+
+            <div class="portal-bank-instructions">
+              <span class="instructions-label">Payment Instructions:</span>
+              <p class="bank-details font-mono">
+                Bank: Guaranty Trust Bank · Acct: 0192837465 · Ref: INV-0038
+              </p>
+            </div>
+
+            <div class="portal-action-buttons">
+              <button
+                type="button"
+                class="btn btn-stamp btn-md"
+                (click)="simulateDownloadPdf()"
+                id="pdf-btn"
+              >
+                <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    fill-rule="evenodd"
+                    d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span>Download PDF Snapshot</span>
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-ghost btn-md"
+                (click)="simulateClientPayment()"
+                id="paid-btn"
+              >
+                <span>✓ I've Made This Payment</span>
+              </button>
+            </div>
+
+            <!-- Dynamic Notification Feedback Banner -->
+            <div class="portal-live-banner font-mono">
+              <span class="banner-icon">ℹ️</span>
+              <span>{{ portalNotice() }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive ROI Calculator Section -->
+  <section class="section-block calculator-section" id="calculator">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <span class="section-kicker">TIME & DISPUTE SAVINGS</span>
+          <h2 class="section-title font-serif">What messy spreadsheets are costing you.</h2>
+        </div>
+        <p class="section-description">
+          Adjust the parameters below to see how much administrative time and reconciliation
+          headaches FreelanceIT eliminates each year.
+        </p>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-sliders-col">
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="monthly-invoices-slider">Invoices Sent Per Month</label>
+              <strong class="slider-val font-mono">{{ monthlyInvoices() }}</strong>
+            </div>
+            <input
+              id="monthly-invoices-slider"
+              type="range"
+              min="1"
+              max="25"
+              step="1"
+              [ngModel]="monthlyInvoices()"
+              (ngModelChange)="monthlyInvoices.set($event)"
+              class="range-slider"
+            />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="hourly-rate-slider">Your Average Hourly Rate ($ / hr)</label>
+              <strong class="slider-val font-mono">${{ hourlyRate() }}</strong>
+            </div>
+            <input
+              id="hourly-rate-slider"
+              type="range"
+              min="25"
+              max="250"
+              step="5"
+              [ngModel]="hourlyRate()"
+              (ngModelChange)="hourlyRate.set($event)"
+              class="range-slider"
+            />
+          </div>
+        </div>
+
+        <div class="calc-results-col">
+          <div class="calc-result-stat">
+            <span class="res-caption">Admin Hours Saved Per Month</span>
+            <strong class="res-figure font-serif">{{ savedHoursPerMonth() }} hrs</strong>
+            <span class="res-sub">Eliminating unbilled queues and manual reconciliations</span>
+          </div>
+
+          <div class="calc-result-stat highlight">
+            <span class="res-caption">Annual Recovered Billable Value</span>
+            <strong class="res-figure font-serif text-moss">${{ annualValueSaved() }}</strong>
+            <span class="res-sub">Based on your hourly rate and zero lost billable time</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Early Access / Waitlist Section -->
+  <section class="section-block waitlist-section" id="waitlist">
+    <div class="container">
+      <div class="waitlist-card">
+        <div class="waitlist-text-side">
+          <div class="kicker-badge">
+            <span class="pulse-dot"></span>
+            <span>PRIVATE ACCESS LIST</span>
+          </div>
+          <h2 class="waitlist-title font-serif">The ledger for serious independent craft.</h2>
+          <p class="waitlist-lead">
+            We are onboarding independent software engineers, designers, consultants, and technical
+            architects. Request your invitation to secure your workspace.
+          </p>
+
+          <div class="stack-badges">
+            <span class="tech-badge">Angular 19 SSR</span>
+            <span class="tech-badge">Supabase Auth &amp; RLS</span>
+            <span class="tech-badge">PostgreSQL Engine</span>
+            <span class="tech-badge">Zero Float Precision</span>
+          </div>
+        </div>
+
+        <div class="waitlist-form-side">
+          @if (!waitlistSubmitted()) {
+            <form (submit)="submitWaitlist($event)" class="access-form">
+              <div class="form-group">
+                <label for="wl-name">Your Full Name</label>
+                <input
+                  id="wl-name"
+                  type="text"
+                  placeholder="e.g. James Uchechi"
+                  required
+                  [ngModel]="waitlistName()"
+                  (ngModelChange)="waitlistName.set($event)"
+                  name="name"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="wl-email">Work / Primary Email</label>
+                <input
+                  id="wl-email"
+                  type="email"
+                  placeholder="james@studio.dev"
+                  required
+                  [ngModel]="waitlistEmail()"
+                  (ngModelChange)="waitlistEmail.set($event)"
+                  name="email"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="wl-role">Primary Discipline</label>
+                <select
+                  id="wl-role"
+                  [ngModel]="waitlistRole()"
+                  (ngModelChange)="waitlistRole.set($event)"
+                  name="role"
+                >
+                  <option value="Software Engineer">Software Engineer / Architect</option>
+                  <option value="Product Designer">Product Designer / UI-UX Lead</option>
+                  <option value="Technical Consultant">Technical Consultant / Advisor</option>
+                  <option value="Other">Other Independent Specialist</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-stamp btn-block">
+                <span>Request Private Beta Access</span>
+                <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </form>
+          } @else {
+            <div class="celebration-box">
+              <div class="celebration-icon">🎉</div>
+              <h3 class="font-serif">You are on the priority list!</h3>
+              <p>
+                Welcome, <strong>{{ waitlistName() }}</strong
+                >. No sequence numbers were wasted.
+              </p>
+
+              <div class="mock-client-access font-mono">
+                <span>Your early reservation token:</span>
+                <code>/p/{{ generatedEarlyToken() }}</code>
+              </div>
+
+              <p class="celebration-note">
+                We'll notify you at <strong>{{ waitlistEmail() }}</strong> when your workspace
+                instance is provisioned.
+              </p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Footer -->
+  <footer class="global-footer">
+    <div class="container footer-content">
+      <div class="footer-top-row">
+        <div class="footer-brand">
+          <div class="brand-link">
+            <span class="brand-glyph">F</span>
+            <span class="brand-name">FreelanceIT</span>
+          </div>
+          <p class="footer-tagline">
+            A high-precision financial ledger with a client door. Built for independent
+            professionals.
+          </p>
+        </div>
+
+        <div class="footer-nav-col">
+          <span class="footer-heading">Architecture</span>
+          <a href="#invariants">One Money Trail</a>
+          <a href="#invariants">Integer Units Only</a>
+          <a href="#invariants">Immutable Snapshots</a>
+          <a href="#invariants">Client Token Door</a>
+        </div>
+
+        <div class="footer-nav-col">
+          <span class="footer-heading">Workflows</span>
+          <a href="#workflow">Timer &amp; Capture</a>
+          <a href="#workflow">Unbilled Queue</a>
+          <a href="#workflow">Payment Reconciliation</a>
+          <a href="#workflow">Credit Notes</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom-row">
+        <span>© 2026 FreelanceIT · Sent invoices are not drafts.</span>
+        <div class="footer-badges font-mono">
+          <span>Angular 19</span>
+          <span>•</span>
+          <span>Supabase RLS</span>
+          <span>•</span>
+          <span>TypeScript 5.8</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

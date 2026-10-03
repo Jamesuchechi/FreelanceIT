@@ -1,6 +1,7 @@
-import { allocateLargestRemainder, percentOf } from './allocation';
-import { DomainError } from './errors';
-import { assertInteger, divRoundHalfAwayFromZero, toSafeInteger } from './rounding';
+import { allocateLargestRemainder, percentOf } from './allocation.js';
+import { DomainError } from './errors.js';
+import { assertInteger, divRoundHalfAwayFromZero, toSafeInteger } from './rounding.js';
+
 
 export type TaxMode = 'exclusive' | 'inclusive';
 

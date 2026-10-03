@@ -1,4 +1,5 @@
-import { DomainError } from './errors';
+import { DomainError } from './errors.js';
+
 
 /** ISO 4217 currencies with 0 minor-unit digits. */
 const ZERO_DECIMAL = new Set([

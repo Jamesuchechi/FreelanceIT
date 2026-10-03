@@ -1,4 +1,5 @@
-import { DomainError } from './errors';
+import { DomainError } from './errors.js';
+
 
 /**
  * Integer division rounded half away from zero. `d` must be non-zero.
